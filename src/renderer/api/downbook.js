@@ -35,8 +35,8 @@ const booksQuery = function (body) {
   $('#list').find('a').each(function (i, e) { // 获取章节UrlList
     list.push($(e).attr('href'))
   })
-  createFolder(path.join(__dirname, `/book/${booksName}.txt`)) // 创建文件夹
-  fs.createWriteStream(path.join(__dirname, `/book/${booksName}.txt`)) // 创建txt文件
+  createFolder(path.join(__dirname, `../../../book/${booksName}.txt`)) // 创建文件夹
+  fs.createWriteStream(path.join(__dirname, `../../../book/${booksName}.txt`)) // 创建txt文件
   console.log(`开始写入《${booksName}》·······`)
   getBody() // 获取章节信息
 }
@@ -72,10 +72,10 @@ const toQuery = function (body) {
  */
 const writeFs = function (title, content) {
   // 添加数据
-  fs.appendFile(path.join(__dirname, `/book/${booksName}.txt`), title, function (err) {
+  fs.appendFile(path.join(__dirname, `../../../book/${booksName}.txt`), title, function (err) {
     if (err) throw err
   })
-  fs.appendFile(path.join(__dirname, `/book/${booksName}.txt`), content, function (err) {
+  fs.appendFile(path.join(__dirname, `../../../book/${booksName}.txt`), content, function (err) {
     if (err) {
       console.log(err)
     } else {
