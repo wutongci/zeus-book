@@ -54,6 +54,10 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.openDevTools()
+  })
+
   /**
    * 监听
    */
@@ -100,32 +104,12 @@ function createTray () {
   // 系统托盘右键菜单
   trayMenuTemplate = [
     {
-      label: '崩溃报告测试 process.crash()',
-      click: function () {
-        console.log('process.crash()')
-        process.crash()
-      }
-    },
-    {
-      label: '崩溃报告测试throw new Error',
-      click: function () {
-        console.log('Error test in main progress')
-        throw new Error('Error test in main progress')
-      }
-    },
-    {
       label: '托盘闪烁',
       click: function () {
         // 判断如果上一个定时器是否执行完
         if (flashTrayTimer) {
           return
         }
-
-        // 任务栏闪烁
-        // if (!mainWindow.isFocused()) {
-        //     mainWindow.showInactive();
-        //     mainWindow.flashFrame(true);
-        // }
 
         // 系统托盘图标闪烁
         appTray.setImage(iconMessagePath)
@@ -162,7 +146,7 @@ function createTray () {
       label: '关于项目',
       click: function () {
         // 打开外部链接
-        shell.openExternal('https://github.com/bulteam/zeus-book')
+        shell.openExternal('https://github.com/wutongci/zeus-book')
       }
     },
     {
@@ -193,7 +177,6 @@ function createTray () {
   })
 }
 
-app.on('ready', createWindow)
 app.on('ready', () => {
   createWindow()
   createTray()

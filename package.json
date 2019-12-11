@@ -23,9 +23,16 @@
   },
   "build": {
     "productName": "zeus-book",
-    "appId": "com.example.yourapp",
+    "appId": "com.zeus.book",
+    "copyright": "Copyright © 2019 coso",
     "directories": {
       "output": "build"
+    },
+    "publish": {
+      "provider": "github",
+      "repo": "zeus-book",
+      "owner": "coso",
+      "releaseType": "release"
     },
     "files": [
       "dist/electron/**/*"
@@ -49,26 +56,32 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/icon.ico",
+      "requestedExecutionLevel": "highestAvailable",
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     },
     "linux": {
       "icon": "build/icons"
     }
   },
   "dependencies": {
+    "ant-design-vue": "^1.4.9",
     "axios": "^0.18.0",
     "element-ui": "^2.13.0",
+    "exceljs": "^1.13.0",
+    "fs-extra": "^8.0.1",
+    "lodash": "^4.17.15",
+    "lodash-id": "^0.14.0",
+    "material-design-icons-iconfont": "^4.0.5",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
-    "vuetify": "^2.1.13",
     "vuex": "^3.0.1",
-    "vuex-electron": "^1.0.3",
-    "lodash": "^4.17.15",
-    "lodash-id": "^0.14.0",
-    "exceljs": "^1.13.0",
-    "fs-extra": "^8.0.1",
-    "material-design-icons-iconfont": "^4.0.5"
+    "vuex-electron": "^1.0.3"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
