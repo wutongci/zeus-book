@@ -76,12 +76,17 @@
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.15",
     "lodash-id": "^0.14.0",
-    "material-design-icons-iconfont": "^4.0.5",
     "vue": "^2.5.16",
+    "lowdb": "^1.0.0",
+    "less-loader": "^5.0.0",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-electron": "^1.0.3"
+    "vuex-electron": "^1.0.3",
+    "cheerio": "^1.0.0-rc.2",
+    "gbk": "^0.1.0",
+    "iconv-lite": "^0.4.13",
+    "request": "^2.82.0"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
