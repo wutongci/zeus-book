@@ -3,6 +3,7 @@
 import {app, BrowserWindow, Menu, shell, Tray, Notification} from 'electron'
 // package.json
 import pkg from '../../package.json'
+import initIpcEvent from './modules/ipcEvent'
 
 /**
  * Set `__static` path to static files in production
@@ -49,6 +50,8 @@ function createWindow () {
     // fullscreen: true, // 全屏
     webPreferences: {
       nodeIntegration: true
+      // webSecurity: false,
+      // allowRunningInsecureContent: true
     }
   })
 
@@ -58,6 +61,9 @@ function createWindow () {
     mainWindow.webContents.openDevTools()
   })
 
+  // 初始化进程之间事件监听
+  initIpcEvent()
+  global.mainWindow = mainWindow
   /**
    * 监听
    */

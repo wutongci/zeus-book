@@ -19,7 +19,6 @@
             <div v-else>
                 {{ suggests }}
             </div>
-
             </a-col>
         </a-row>
       </div>
@@ -27,7 +26,7 @@
 </template>
 
 <script>
-  import { books } from '@/api/downbook'
+  import {ipcRenderer} from 'electron'
   export default {
     name: 'landing-page',
     data () {
@@ -35,13 +34,17 @@
         suggests: null
       }
     },
-
+    mounted () {
+      this.$electron.ipcRenderer.on('download-success', (e, data) => {
+        let { content } = data
+        this.suggests = content
+      })
+    },
     methods: {
-      async onDown (value) {
-        console.log(value)
-        let { result } = await books(value)
-        this.suggests = result
-        // this.$router.push({ path: '/search', query: { value } })
+      async onDown (url) {
+        ipcRenderer.send('download-start', {
+          url: url
+        })
       }
     }
   }

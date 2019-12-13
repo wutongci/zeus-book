@@ -1,6 +1,3 @@
-/**
- * Created by feverdestiny on 2017/9/22.
- */
 const cheerio = require('cheerio')
 const request = require('request')
 const fs = require('fs')
@@ -19,12 +16,21 @@ export function books (bookurl) {
   return request(url, function (err, res, body) {
     if (!err && res.statusCode === 200) {
       console.log(`获取小说基本信息成功·······`)
+      sendMsg(`获取小说基本信息成功·······`)
       booksQuery(body)
     } else {
       console.log('err:' + err)
+      sendMsg('err:' + err)
     }
   })
 }
+
+const sendMsg = function (content) {
+  global.mainWindow.webContents.send('download-success', {
+    content: content
+  })
+}
+
 /**
  * 处理小说名称及其小说目录
  * @param {*} body
@@ -38,6 +44,7 @@ const booksQuery = function (body) {
   createFolder(path.join(__dirname, `../../../book/${booksName}.txt`)) // 创建文件夹
   fs.createWriteStream(path.join(__dirname, `../../../book/${booksName}.txt`)) // 创建txt文件
   console.log(`开始写入《${booksName}》·······`)
+  sendMsg(`开始写入《${booksName}》·······`)
   getBody() // 获取章节信息
 }
 /**
@@ -52,6 +59,7 @@ const getBody = function () {
       toQuery(body)
     } else {
       console.log('err:' + err)
+      sendMsg('err:' + err)
     }
   })
 }
@@ -78,8 +86,10 @@ const writeFs = function (title, content) {
   fs.appendFile(path.join(__dirname, `../../../book/${booksName}.txt`), content, function (err) {
     if (err) {
       console.log(err)
+      sendMsg('err:' + err)
     } else {
       console.log(title + '········保存成功')
+      sendMsg(title + '········保存成功')
       if (count + 1 < list.length) { // 当前页码是否超过章节数
         count = count + 1
         getBody()
@@ -93,9 +103,9 @@ const writeFs = function (title, content) {
  * @param {any} to
  */
 const createFolder = function (to) { // 文件写入
-  var sep = path.sep
-  var folders = path.dirname(to).split(sep)
-  var p = ''
+  let sep = path.sep
+  let folders = path.dirname(to).split(sep)
+  let p = ''
   while (folders.length) {
     p += folders.shift() + sep
     if (!fs.existsSync(p)) {
