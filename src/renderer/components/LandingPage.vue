@@ -11,40 +11,47 @@
           </a-col>
       </a-row>
       <div class="example">
-        <a-row>
-            <a-col :span="24">
-            <div v-if = 'suggests==null'>
-                <a-spin size="large"/>
-            </div>
-            <div v-else>
-                {{ suggests }}
-            </div>
-            </a-col>
-        </a-row>
+          <down-log id="log" :cache="cache" :status="status" :capacity="50"/>
       </div>
   </div>
 </template>
 
 <script>
+  import DownLog from './DownLog.vue'
   import {ipcRenderer} from 'electron'
   export default {
     name: 'landing-page',
+    components: {
+      'down-log': DownLog
+    },
     data () {
       return {
-        suggests: null
+        cache: [],
+        status: 'idle'
+      }
+    },
+    computed: {
+      isRunning () {
+        return this.status === 'running'
       }
     },
     mounted () {
       this.$electron.ipcRenderer.on('download-success', (e, data) => {
         let { content } = data
-        this.suggests = content
+        let logs = []
+        logs.push(content);
+        [].push.apply(this.cache, logs)
       })
     },
     methods: {
       async onDown (url) {
+        this.status = 'running'
         ipcRenderer.send('download-start', {
           url: url
         })
+      },
+      stop () {
+        this.status = 'idle'
       }
     }
   }

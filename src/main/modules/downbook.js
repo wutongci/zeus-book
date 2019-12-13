@@ -4,8 +4,8 @@ const fs = require('fs')
 const path = require('path')
 
 let count = 0 // 叠加
-let url = 'https://www.biquge.com.cn/book/32883' // 小说Url
-let baseUrl = 'https://www.biquge.com.cn'
+let url = 'https://www.biquwo.com/bqw24656/' // 小说Url
+let baseUrl = 'https://www.biquwo.com/bqw24656/'
 let list = [] // 章节List
 let booksName = '' // 小说名称
 
@@ -15,8 +15,8 @@ let booksName = '' // 小说名称
 export function books (bookurl) {
   return request(url, function (err, res, body) {
     if (!err && res.statusCode === 200) {
-      console.log(`获取小说基本信息成功·······`)
-      sendMsg(`获取小说基本信息成功·······`)
+      console.log(`开始获取小说:` + url)
+      sendMsg(`开始获取小说:` + url)
       booksQuery(body)
     } else {
       console.log('err:' + err)
@@ -53,7 +53,7 @@ const booksQuery = function (body) {
  */
 const getBody = function () {
   let primUrl = baseUrl + list[count]
-  // console.log(primUrl)
+  console.log(primUrl)
   request(primUrl, function (err, res, body) {
     if (!err && res.statusCode === 200) {
       toQuery(body)
